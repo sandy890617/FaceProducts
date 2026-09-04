@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>臉部保養專區</title>
+
+  <!-- Google Fonts & Font Awesome Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Noto+Serif+TC:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- 引入共用與專屬 CSS -->
+  <link rel="stylesheet" href="CSS/index.css">
+  <link rel="stylesheet" href="CSS/skincare.css">
+</head>
+<body>
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+
+  <!-- 側邊選單 -->
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+  <nav class="side-drawer" id="sideDrawer">
+    <div class="drawer-header">
+      <button class="close-drawer-btn" id="closeDrawerBtn"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <ul class="drawer-nav">
+      <li><a href="index.html" class="nav-link"><i class="fa-solid fa-house"></i> 首頁總覽</a></li>
+      <li><a href="skincare.html" class="nav-link active"><i class="fa-solid fa-droplet"></i> 臉部保養 (Skincare)</a></li>
+      <li><a href="makeup.html" class="nav-link"><i class="fa-solid fa-wand-magic-sparkles"></i> 彩妝底妝 (Makeup)</a></li>
+      <li><a href="bodyhair.html" class="nav-link"><i class="fa-solid fa-pump-soap"></i> 身體美髮 (Body & Hair)</a></li>
+      <li><a href="healthfood.html" class="nav-link"><i class="fa-solid fa-cookie-bite"></i> 保健食品 (Health food)</a></li>
+      <li><a href="perfume.html" class="nav-link"><i class="fa-solid fa-spray-can-sparkles"></i> 香氛精油 (Fragrance)</a></li>
+      <li><a href="tools.html" class="nav-link"><i class="fa-solid fa-brush"></i> 美容工具 (Tools)</a></li>
+      <li class="divider"></li>
+      <li><a href="empties.html" class="nav-link"><i class="fa-solid fa-trophy"></i> 光榮空瓶記 (Empties)</a></li>
+    </ul>
+  </nav>
+
+  <div class="app-container">
+    <header class="app-header">
+      <div class="brand">
+        <div class="logo-icon"><i class="fa-solid fa-droplet"></i></div>
+        <div class="brand-text"><h1>臉部保養清單</h1></div>
+      </div>
+      <button class="hamburger-btn" id="hamburgerBtn"><i class="fa-solid fa-bars"></i></button>
+    </header>
+
+    <!-- 分類選單 -->
+    <div class="category-pills" id="subCategoryPills">
+      <button class="pill active" data-sub="all"><i class="fa-solid fa-border-all"></i> 全部保養品</button>
+      <button class="pill" data-sub="cleanser"><i class="fa-solid fa-soap"></i> 卸妝潔顏</button>
+      <button class="pill" data-sub="toner"><i class="fa-solid fa-faucet-drip"></i> 化妝水/前導</button>
+      <button class="pill" data-sub="serum"><i class="fa-solid fa-vial"></i> 精華液/安瓶</button>
+      <button class="pill" data-sub="cream"><i class="fa-solid fa-jar"></i> 乳液/乳霜</button>
+      <button class="pill" data-sub="eye"><i class="fa-solid fa-eye"></i> 眼部護理</button>
+      <button class="pill" data-sub="mask_sun"><i class="fa-solid fa-sun"></i> 面膜</button>
+      <button class="pill" data-sub="layer-group"><i class="fa-solid fa-layer-group"></i> 棉片</button>
+    </div>
+
+    <!-- 🟢 產品卡片容器（由 JS 自動產生卡片，HTML 保持超乾淨） -->
+    <main class="products-container grid-view" id="productsContainer"></main>
+
+    <!-- 圖片放大 Lightbox -->
+    <div id="imageModal" class="image-modal">
+      <div class="modal-content">
+        <img id="modalImg" src="" alt="放大預覽">
+        <button class="modal-close" id="modalClose"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 依序引入：共用 JS -> 資料檔 -> 保養專用邏輯 -->
+	<script src="JS/api.js"></script>
+	<script src="JS/index.js"></script>
+	<script src="JS/skincare.js"></script>
+</body>
+</html>

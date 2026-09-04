@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>美妝保養收納與心得</title>
+  
+  <!-- Google Fonts & Font Awesome Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Noto+Serif+TC:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- 引入外部 CSS -->
+  <link rel="stylesheet" href="CSS/index.css">
+</head>
+<body>
+  <!-- 背景柔光氛圍裝飾 -->
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+
+  <!-- 漢堡側邊選單 (Drawer) -->
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+  <nav class="side-drawer" id="sideDrawer">
+    <div class="drawer-header">
+      <div class="drawer-brand">
+        <i class="fa-solid fa-gem"></i>
+        <span>美妝保養收納與心得</span>
+      </div>
+      <button class="close-drawer-btn" id="closeDrawerBtn" aria-label="關閉選單">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+    <ul class="drawer-nav">
+      <li>
+        <a href="index.html" class="nav-link active">
+          <i class="fa-solid fa-house"></i> 首頁總覽
+        </a>
+      </li>
+      <li>
+        <a href="skincare.html" class="nav-link">
+          <i class="fa-solid fa-droplet"></i> 臉部保養 (Skincare)
+        </a>
+      </li>
+      <li>
+        <a href="makeup.html" class="nav-link">
+          <i class="fa-solid fa-wand-magic-sparkles"></i> 彩妝底妝 (Makeup)
+        </a>
+      </li>
+      <li>
+        <a href="hairbody.html" class="nav-link">
+          <i class="fa-solid fa-pump-soap"></i> 身體美髮 (Body & Hair)
+        </a>
+      </li>
+      <li>
+        <a href="healthfood.html" class="nav-link">
+          <i class="fa-solid fa-cookie-bite"></i> 保健食品 (Health & food)
+        </a>
+      </li>
+      <li>
+        <a href="food.html" class="nav-link">
+          <i class="fa-solid fa-cake-candles"></i> 零食 (Food)
+        </a>
+      </li>
+      <li>
+        <a href="perfume.html" class="nav-link">
+          <i class="fa-solid fa-spray-can-sparkles"></i> 香氛精油 (Fragrance)
+        </a>
+      </li>
+      <li>
+        <a href="tools.html" class="nav-link">
+          <i class="fa-solid fa-brush"></i> 美容工具 (Tools)
+        </a>
+      </li>
+      <li class="divider"></li>
+      <li>
+        <a href="empties.html" class="nav-link">
+          <i class="fa-solid fa-trophy"></i> 光榮空瓶記 (Empties)
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="app-container">
+    <!-- 頂部導覽列 -->
+    <header class="app-header">
+      <div class="brand">
+        <div class="logo-icon"><i class="fa-solid fa-gem"></i></div>
+        <div class="brand-text">
+          <h1>美妝保養收納與心得</h1>
+          <p class="subtitle">美妝保養收納．期限追蹤．真實心得誌</p>
+        </div>
+      </div>
+      
+      <!-- 漢堡按鈕 -->
+      <button class="hamburger-btn" id="hamburgerBtn" aria-label="開啟選單">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </header>
+
+    <!-- 區塊 2: 種類分區 -->
+    <section class="home-section">
+
+      <div class="category-portal-grid">
+        <!-- 臉部保養 -->
+        <a href="skincare.html" class="portal-card">
+          <div class="portal-bg" style="background-image: url('https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&auto=format&fit=crop&q=80');"></div>
+          <div class="portal-content">
+            <div class="portal-icon"><i class="fa-solid fa-droplet"></i></div>
+            <h3>臉部保養</h3>
+            <p>精華液、乳液、化妝水、面膜</p>
+            <span class="portal-link-text">進入專區 <i class="fa-solid fa-arrow-right"></i></span>
+          </div>
+        </a>
+
+        <!-- 彩妝底妝 -->
+        <a href="makeup.html" class="portal-card">
+          <div class="portal-bg" style="background-image: url('https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=600&auto=format&fit=crop&q=80');"></div>
+          <div class="portal-content">
+            <div class="portal-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+            <h3>彩妝底妝</h3>
+            <p>粉底液、氣墊、唇彩、眼影盤</p>
+            <span class="portal-link-text">進入專區 <i class="fa-solid fa-arrow-right"></i></span>
+          </div>
+        </a>
+
+        <!-- 身體美髮 -->
+        <a href="bodyhair.html" class="portal-card">
+          <div class="portal-bg" style="background-image: url('https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=600&auto=format&fit=crop&q=80');"></div>
+          <div class="portal-content">
+            <div class="portal-icon"><i class="fa-solid fa-pump-soap"></i></div>
+            <h3>身體美髮</h3>
+            <p>洗面乳、護髮油、洗沐護理</p>
+            <span class="portal-link-text">進入專區 <i class="fa-solid fa-arrow-right"></i></span>
+          </div>
+        </a><li>
+        
+        <!-- 保健食品 -->
+        <a href="healthfood.html" class="portal-card">
+          <div class="portal-bg" style="background-image: url('https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=1200&auto=format&fit=crop&q=80');"></div>
+          <div class="portal-content">
+            <div class="portal-icon"><i class="fa-solid fa-cookie-bite"></i></div>
+            <h3>保健食品</h3>
+            <p>膠原蛋白、PDRN、消水腫、抑制食慾</p>
+            <span class="portal-link-text">進入專區 <i class="fa-solid fa-arrow-right"></i></span>
+          </div>
+        </a>
+        
+        <!-- 食品 -->
+        <a href="food.html" class="portal-card">
+          <div class="portal-bg" style="background-image: url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1600&auto=format&fit=crop&q=80');"></div>
+          <div class="portal-content">
+            <div class="portal-icon"><i class="fa-solid fa-cake-candles"></i></div>
+            <h3>食品</h3>
+            <p>零食、餅乾、飲品</p>
+            <span class="portal-link-text">進入專區 <i class="fa-solid fa-arrow-right"></i></span>
+          </div>
+        </a>
+
+        <!-- 美容工具 -->
+        <a href="tools.html" class="portal-card">
+          <div class="portal-bg" style="background-image: url('https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?w=600&auto=format&fit=crop&q=80');"></div>
+          <div class="portal-content">
+            <div class="portal-icon"><i class="fa-solid fa-brush"></i></div>
+            <h3>美容工具</h3>
+            <p>刷具、美妝蛋、導入儀、刮痧板</p>
+            <span class="portal-link-text">進入專區 <i class="fa-solid fa-arrow-right"></i></span>
+          </div>
+        </a>
+
+        <!-- 空瓶紀錄 -->
+        <a href="empties.html" class="portal-card portal-card-accent">
+          <div class="portal-bg" style="background-image: url('https://images.unsplash.com/photo-1608248597358-39ec86751225?w=600&auto=format&fit=crop&q=80');"></div>
+          <div class="portal-content">
+            <div class="portal-icon"><i class="fa-solid fa-trophy"></i></div>
+            <h3>光榮空瓶誌</h3>
+            <p>年度用光清單．回購與避雷總結</p>
+            <span class="portal-link-text">查看空瓶 <i class="fa-solid fa-arrow-right"></i></span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- 區塊 3: 5 星回購殿堂 (Holy Grail) -->
+    <section class="home-section">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-badge badge-gold"><i class="fa-solid fa-star"></i> 滿分愛用</span>
+          <h2>五星回購殿堂．Holy Grail</h2>
+        </div>
+        <p class="section-desc">不容置疑、必定無限次回購的摯愛清單</p>
+      </div>
+
+      <div class="products-container grid-view">
+        <!-- 5星愛用 1 -->
+        <article class="product-card" data-category="skincare" data-status="opened" data-expiry="2027-10-01">
+          <div class="card-img-wrapper">
+            <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&auto=format&fit=crop&q=80" alt="小黑瓶" loading="lazy">
+            <span class="status-badge status-opened">使用中</span>
+            <span class="category-tag">臉部保養 · 修護精華</span>
+          </div>
+          <div class="card-body">
+            <div class="card-header-info">
+              <span class="brand-title">LANCÔME 蘭蔻</span>
+              <h3 class="product-title">超未來肌因賦活露 (小黑瓶)</h3>
+            </div>
+            <div class="product-meta">
+              <span class="meta-item"><i class="fa-solid fa-flask"></i> 50ml</span>
+              <span class="meta-item"><i class="fa-solid fa-tag"></i> NT$ 4,380</span>
+            </div>
+            <div class="review-box">
+              <div class="rating-stars">
+                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                <strong class="rating-score">5.0</strong>
+              </div>
+              <p class="review-text">「質地極度清爽好吸收，換季時穩定膚況特別有感！後續疊加乳霜完全不悶，必定回購。」</p>
+            </div>
+            <div class="tags-list">
+              <span class="tag-item">#清爽</span>
+              <span class="tag-item">#穩定膚況</span>
+              <span class="tag-item">#熬夜救星</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 5星愛用 2 -->
+        <article class="product-card" data-category="perfume" data-status="opened" data-expiry="2029-01-01">
+          <div class="card-img-wrapper">
+            <img src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=600&auto=format&fit=crop&q=80" alt="無人之境" loading="lazy">
+            <span class="status-badge status-opened">使用中</span>
+            <span class="category-tag">香氛精油 · 木質玫瑰</span>
+          </div>
+          <div class="card-body">
+            <div class="card-header-info">
+              <span class="brand-title">BYREDO</span>
+              <h3 class="product-title">無人之境淡香精 (Rose of No Man's Land)</h3>
+            </div>
+            <div class="product-meta">
+              <span class="meta-item"><i class="fa-solid fa-flask"></i> 50ml</span>
+              <span class="meta-item"><i class="fa-solid fa-tag"></i> NT$ 5,600</span>
+            </div>
+            <div class="review-box">
+              <div class="rating-stars">
+                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                <strong class="rating-score">5.0</strong>
+              </div>
+              <p class="review-text">「堅定冷冽又溫柔的木質玫瑰香氣，後調琥珀紙莎草極其舒心耐聞，持香一整天。」</p>
+            </div>
+            <div class="tags-list">
+              <span class="tag-item">#木質玫瑰</span>
+              <span class="tag-item">#高級感</span>
+              <span class="tag-item">#不撞香</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- 區塊 4: 最近空瓶總結 (Recent Empties) -->
+    <section class="home-section">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-badge badge-purple"><i class="fa-solid fa-bottle-water"></i> 空瓶筆記</span>
+          <h2>最近空瓶紀錄．Recent Empties</h2>
+        </div>
+        <p class="section-desc">用完一瓶的成就感！記錄真實空瓶心得與回購結論</p>
+      </div>
+
+      <div class="products-container grid-view">
+        <article class="product-card" data-category="skincare" data-status="empty" data-expiry="2026-06-01">
+          <div class="card-img-wrapper">
+            <img src="https://images.unsplash.com/photo-1608248597358-39ec86751225?w=600&auto=format&fit=crop&q=80" alt="B5修復霜" loading="lazy">
+            <span class="status-badge status-empty">已空瓶</span>
+            <span class="category-tag">臉部保養 · 修復霜</span>
+          </div>
+          <div class="card-body">
+            <div class="card-header-info">
+              <span class="brand-title">理膚寶水</span>
+              <h3 class="product-title">B5全面修復霜</h3>
+            </div>
+            <div class="product-meta">
+              <span class="meta-item"><i class="fa-solid fa-flask"></i> 100ml</span>
+              <span class="meta-item"><i class="fa-solid fa-tag"></i> NT$ 880</span>
+            </div>
+            <div class="review-box">
+              <p class="review-text">「居家必備萬用神霜！粉刺後或乾癢厚敷隔天立刻舒緩平整，已空瓶無數次。」</p>
+            </div>
+            <div class="card-footer">
+              <span class="open-date-text">完用日期：2026-08</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- 頁尾 -->
+    <footer class="app-footer">
+      <p>Glow Vanity &copy; 2026 · 我的專屬梳妝台與心得日誌</p>
+    </footer>
+  </div>
+
+  <!-- 引入外部 JavaScript -->
+  <script src="JS/index.js"></script>
+</body>
+</html>
