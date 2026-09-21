@@ -1,5 +1,9 @@
 // JS/skincare.js
-console.log(">>> skincare.js 成功載入並開始執行！");
+console.log(">>> [skincare.js V2 - 二級多選 AND 邏輯] 成功載入！");
+
+let allProductsData = [];
+let currentCategory = "all";
+let selectedTags = new Set(); // 儲存多選標籤，為空代表「全部」
 
 // 1. 卡片 HTML 渲染函式
 function renderProducts(dataList) {
@@ -15,7 +19,6 @@ function renderProducts(dataList) {
   }
 
   container.innerHTML = dataList.map(item => {
-    // 組合功效列表
     const effectsHtml = (item.effects || []).map(eff => `
       <div class="effect-item">
         <span class="effect-badge ${eff.color || 'blue'}">${eff.badge}</span>
@@ -23,7 +26,6 @@ function renderProducts(dataList) {
       </div>
     `).join("");
 
-    // 組合優缺點
     const prosConsHtml = (item.pros || item.cons) ? `
       <div class="pros-cons-box">
         ${item.pros ? `
@@ -39,10 +41,8 @@ function renderProducts(dataList) {
       </div>
     ` : "";
 
-    // 組合標籤
     const tagsHtml = (item.tags || []).map(t => `<span class="tag-item">${t}</span>`).join("");
 
-    // 用法處理
     let usageContentHtml = "";
     if (Array.isArray(item.usage)) {
       usageContentHtml = item.usage.map(u => `
@@ -56,7 +56,7 @@ function renderProducts(dataList) {
     }
 
     return `
-      <article class="product-card" data-subcategory="${item.subCategory}">
+      <article class="product-card" data-subcategory="${item.subCategory || ''}">
         <div class="card-img-wrapper">
           <img src="${item.image}" alt="${item.name}" loading="lazy">
         </div>
@@ -96,36 +96,154 @@ function renderProducts(dataList) {
     `;
   }).join("");
 
-  // 渲染完成後綁定圖片放大效果
   initImageModal();
 }
 
-// 2. 側邊抽屜與分類篩選綁定
+// 2. 自動抽取二級標籤（多選切換）
+function updateFeaturePills(catKey) {
+  const featureBox = document.getElementById("featurePills");
+  if (!featureBox) {
+    console.error("找不到 #featurePills 容器，請確認 HTML！");
+    return;
+  }
+
+  if (catKey === "all") {
+    featureBox.innerHTML = "";
+    featureBox.style.display = "none";
+    return;
+  }
+
+  // 篩選出包含此大類別的資料
+  const matchedItems = allProductsData.filter(item => {
+    const rawVal = String(item.subCategory || "");
+    const tags = rawVal.split(/[,，\s]+/).map(t => t.trim().toLowerCase());
+    return tags.includes(catKey.toLowerCase());
+  });
+
+  console.log(`[updateFeaturePills] 當前大分類: ${catKey}，找到商品數:`, matchedItems.length);
+
+  // 抓出所有次標籤
+  const tagSet = new Set();
+  matchedItems.forEach(item => {
+    const rawVal = String(item.subCategory || "");
+    const tags = rawVal.split(/[,，\s]+/).map(t => t.trim()).filter(Boolean);
+    tags.forEach(t => {
+      if (t.toLowerCase() !== catKey.toLowerCase()) {
+        tagSet.add(t);
+      }
+    });
+  });
+
+  const availableTags = Array.from(tagSet);
+  console.log(`[updateFeaturePills] 自動抓取出的標籤:`, availableTags);
+
+  if (availableTags.length === 0) {
+    featureBox.innerHTML = "";
+    featureBox.style.display = "none";
+    return;
+  }
+
+  let buttonsHtml = `
+    <button class="pill feature-pill ${selectedTags.size === 0 ? 'active' : ''}" data-val="all">
+      全部
+    </button>
+  `;
+
+  buttonsHtml += availableTags.map(tag => `
+    <button class="pill feature-pill ${selectedTags.has(tag) ? 'active' : ''}" data-val="${tag}">
+      ${tag}
+    </button>
+  `).join("");
+
+  featureBox.style.display = "flex";
+  featureBox.innerHTML = buttonsHtml;
+
+  // 綁定二級按鈕點選（多選 Toggle）
+  featureBox.querySelectorAll(".feature-pill").forEach(btn => {
+    btn.onclick = () => {
+      const val = btn.dataset.val;
+
+      if (val === "all") {
+        // 點選全部：清空所有選取的標籤
+        selectedTags.clear();
+        featureBox.querySelectorAll(".feature-pill").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+      } else {
+        // 點選特定標籤：切換選取狀態
+        const allBtn = featureBox.querySelector('.feature-pill[data-val="all"]');
+
+        if (selectedTags.has(val)) {
+          selectedTags.delete(val);
+          btn.classList.remove("active");
+        } else {
+          selectedTags.add(val);
+          btn.classList.add("active");
+        }
+
+        // 當所有標籤都被取消時，自動選回「全部」
+        if (selectedTags.size === 0) {
+          if (allBtn) allBtn.classList.add("active");
+        } else {
+          if (allBtn) allBtn.classList.remove("active");
+        }
+      }
+
+      console.log(">>> 目前選取的二級標籤:", Array.from(selectedTags));
+      filterCards();
+    };
+  });
+}
+
+// 3. 卡片過濾（AND 邏輯：必須同時包含所有勾選的標籤）
+function filterCards() {
+  const cards = document.querySelectorAll("#productsContainer .product-card");
+
+  cards.forEach(card => {
+    const subStr = card.dataset.subcategory || "";
+    const tagArray = subStr.split(/[,，\s]+/).map(t => t.trim());
+
+    // 1. 第一層大分類判斷
+    const matchCategory = (
+      currentCategory === "all" ||
+      tagArray.some(t => t.toLowerCase() === currentCategory.toLowerCase())
+    );
+
+    // 2. 第二層標籤判斷（AND 邏輯：所有已選的標籤，卡片都必須擁有）
+    let matchTag = true;
+    if (selectedTags.size > 0) {
+      matchTag = Array.from(selectedTags).every(selected => tagArray.includes(selected));
+    }
+
+    if (matchCategory && matchTag) {
+      card.classList.remove("hidden");
+      card.style.display = "";
+    } else {
+      card.classList.add("hidden");
+      card.style.display = "none";
+    }
+  });
+}
+
+// 4. 事件監聽綁定
 function setupControls() {
-  // 分類按鈕篩選
   const pillContainer = document.getElementById("subCategoryPills");
   if (pillContainer) {
     const pills = pillContainer.querySelectorAll(".pill");
-    pillContainer.addEventListener("click", (e) => {
-      const clickedPill = e.target.closest(".pill");
-      if (!clickedPill) return;
+    pills.forEach(pill => {
+      pill.onclick = () => {
+        pills.forEach(p => p.classList.remove("active"));
+        pill.classList.add("active");
 
-      const selected = clickedPill.dataset.sub;
-      pills.forEach(p => p.classList.remove("active"));
-      clickedPill.classList.add("active");
+        currentCategory = pill.dataset.sub;
+        selectedTags.clear(); // 切換大分類時，自動重置第二層標籤
 
-      const cards = document.querySelectorAll("#productsContainer .product-card");
-      cards.forEach(card => {
-        if (selected === "all" || card.dataset.subcategory === selected) {
-          card.classList.remove("hidden");
-        } else {
-          card.classList.add("hidden");
-        }
-      });
+        console.log(">>> 點擊了一級大類:", currentCategory);
+        updateFeaturePills(currentCategory);
+        filterCards();
+      };
     });
   }
 
-  // 側邊選單 Drawer
   const hamburgerBtn = document.getElementById("hamburgerBtn");
   const closeDrawerBtn = document.getElementById("closeDrawerBtn");
   const drawerOverlay = document.getElementById("drawerOverlay");
@@ -146,7 +264,7 @@ function setupControls() {
   if (drawerOverlay) drawerOverlay.onclick = closeDrawer;
 }
 
-// 3. 圖片放大 Lightbox 功能
+// 5. 圖片放大 Lightbox
 function initImageModal() {
   const imageModal = document.getElementById("imageModal");
   const modalImg = document.getElementById("modalImg");
@@ -178,7 +296,7 @@ function initImageModal() {
   }
 }
 
-// 4. 主執行入口（不等待 DOMContentLoaded，立即非同步執行）
+// 6. 主執行入口
 async function main() {
   const container = document.getElementById("productsContainer");
   if (container) {
@@ -194,13 +312,12 @@ async function main() {
 
   try {
     console.log(">>> 正在向 Google 試算表請求資料...");
-    const skincareList = await fetchProducts("skincare");
-    console.log(">>> 資料請求完成，筆數:", skincareList.length);
-    renderProducts(skincareList);
+    allProductsData = await fetchProducts("skincare");
+    console.log(">>> [最新資料] 載入成功，總筆數:", allProductsData.length);
+    renderProducts(allProductsData);
   } catch (err) {
     console.error("載入失敗:", err);
   }
 }
 
-// 立即啟動
 main();
