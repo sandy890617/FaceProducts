@@ -1,5 +1,89 @@
-// JS/skincare.js
-console.log(">>> hairbody.js 成功載入並開始執行！");
+// JS/bodyhair.js (或對應的 JS 檔名)
+console.log(">>> bodyhair.js 成功載入並開始執行！");
+
+// 記錄篩選狀態與商品原始資料
+let rawProductList = [];
+let curSub = 'all';
+let curTag = 'all';
+
+// ==========================
+// 工具 1：負責卡片過濾（大類 + 次標籤）
+// ==========================
+function filterAll() {
+  const cards = document.querySelectorAll("#productsContainer .product-card");
+  cards.forEach(card => {
+    // 取得卡片上的 subCategory 字串切成陣列（支援逗號與空白）
+    const tags = (card.dataset.subcategory || "").split(/[,，\s]+/).map(t => t.trim().toLowerCase());
+
+    const matchSub = (curSub === "all" || tags.includes(curSub.toLowerCase()));
+    const matchTag = (curTag === "all" || tags.includes(curTag.toLowerCase()));
+
+    if (matchSub && matchTag) {
+      card.classList.remove("hidden");
+      card.style.display = "";
+    } else {
+      card.classList.add("hidden");
+      card.style.display = "none";
+    }
+  });
+}
+
+// ==========================
+// 工具 2：負責在下方生出「第二層按鈕」
+// ==========================
+function buildSubTags(subKey) {
+  const box = document.getElementById("featurePills");
+  if (!box) return;
+
+  // 選「全部」時清空並隱藏二級選單
+  if (subKey === "all") {
+    box.innerHTML = "";
+    box.style.display = "none";
+    return;
+  }
+
+  // 抓出屬於這個大類的所有小關鍵字（排除大類本身）
+  const tagSet = new Set();
+  rawProductList.forEach(item => {
+    const rawStr = String(item.subCategory || "");
+    const tags = rawStr.split(/[,，\s]+/).map(t => t.trim()).filter(Boolean);
+    
+    // 如果這筆資料屬於當前大類
+    if (tags.some(t => t.toLowerCase() === subKey.toLowerCase())) {
+      tags.forEach(t => {
+        if (t.toLowerCase() !== subKey.toLowerCase()) {
+          tagSet.add(t);
+        }
+      });
+    }
+  });
+
+  const tagList = Array.from(tagSet);
+
+  // 如果這大類沒有任何額外關鍵字，隱藏容器
+  if (tagList.length === 0) {
+    box.innerHTML = "";
+    box.style.display = "none";
+    return;
+  }
+
+  // 產出按鈕（預設第一顆為「全部」）
+  box.style.display = "flex";
+  let buttonsHtml = `<button class="pill active" data-val="all">全部</button>`;
+  buttonsHtml += tagList.map(t => `<button class="pill" data-val="${t}">${t}</button>`).join("");
+  box.innerHTML = buttonsHtml;
+
+  // 綁定二級按鈕點擊事件
+  box.querySelectorAll(".pill").forEach(btn => {
+    btn.onclick = () => {
+      box.querySelectorAll(".pill").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+
+      curTag = btn.dataset.val;
+      filterAll();
+    };
+  });
+}
 
 // 1. 卡片 HTML 渲染函式
 function renderProducts(dataList) {
@@ -56,7 +140,7 @@ function renderProducts(dataList) {
     }
 
     return `
-      <article class="product-card" data-subcategory="${item.subCategory}">
+      <article class="product-card" data-subcategory="${item.subCategory || ''}">
         <div class="card-img-wrapper">
           <img src="${item.image}" alt="${item.name}" loading="lazy">
         </div>
@@ -106,22 +190,17 @@ function setupControls() {
   const pillContainer = document.getElementById("subCategoryPills");
   if (pillContainer) {
     const pills = pillContainer.querySelectorAll(".pill");
-    pillContainer.addEventListener("click", (e) => {
-      const clickedPill = e.target.closest(".pill");
-      if (!clickedPill) return;
+    pills.forEach(pill => {
+      pill.onclick = () => {
+        pills.forEach(p => p.classList.remove("active"));
+        pill.classList.add("active");
 
-      const selected = clickedPill.dataset.sub;
-      pills.forEach(p => p.classList.remove("active"));
-      clickedPill.classList.add("active");
+        curSub = pill.dataset.sub;
+        curTag = "all"; // 切換大分類時，小分類重設回全部
 
-      const cards = document.querySelectorAll("#productsContainer .product-card");
-      cards.forEach(card => {
-        if (selected === "all" || card.dataset.subcategory === selected) {
-          card.classList.remove("hidden");
-        } else {
-          card.classList.add("hidden");
-        }
-      });
+        buildSubTags(curSub); // 1. 生出二級標籤
+        filterAll();          // 2. 篩選卡片
+      };
     });
   }
 
@@ -178,7 +257,7 @@ function initImageModal() {
   }
 }
 
-// 4. 主執行入口（不等待 DOMContentLoaded，立即非同步執行）
+// 4. 主執行入口
 async function main() {
   const container = document.getElementById("productsContainer");
   if (container) {
@@ -194,9 +273,11 @@ async function main() {
 
   try {
     console.log(">>> 正在向 Google 試算表請求資料...");
-    const skincareList = await fetchProducts("bodyhair");
-    console.log(">>> 資料請求完成，筆數:", skincareList.length);
-    renderProducts(skincareList);
+    const dataList = await fetchProducts("bodyhair");
+    console.log(">>> 資料請求完成，筆數:", dataList.length);
+    
+    rawProductList = dataList; // 👈 存入全域，讓 buildSubTags 可以抓標籤
+    renderProducts(dataList);
   } catch (err) {
     console.error("載入失敗:", err);
   }
