@@ -1,0 +1,86 @@
+/* ==========================================================================
+   必定回購清單專用樣式 (Empties Page Styles)
+   ========================================================================== */
+
+/* 標頭橫幅 (Hero Banner) */
+.hero-banner {
+  margin: 1.5rem 0 1rem 0;
+  text-align: center;
+  padding: 1.25rem 1rem;
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #9a7b56;
+  font-weight: 600;
+  background: rgba(212, 175, 55, 0.15);
+  padding: 0.3rem 0.8rem;
+  border-radius: 50px;
+  margin-bottom: 0.6rem;
+}
+
+.hero-title {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: #2c2c2c;
+  margin: 0 0 0.4rem 0;
+}
+
+.hero-desc {
+  font-size: 0.88rem;
+  color: #71717a;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* 數據概覽區塊 (Stats Overview) */
+.stats-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.stat-item {
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 12px;
+  padding: 0.75rem 0.5rem;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+}
+
+.stat-num {
+  display: block;
+  font-family: 'Cinzel', serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #8b6b4e;
+}
+
+.stat-label {
+  font-size: 0.72rem;
+  color: #71717a;
+  letter-spacing: 0.02em;
+}
+
+/* 二級標籤容器微調 */
+.feature-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.75rem 0 1.25rem 0;
+  min-height: 32px;
+}
